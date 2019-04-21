@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import time
+import RPi.GPIO as GPIO
+
+# ѕодготавливаем пины GPIO.
+GPIO.cleanup()
+GPIO.setmode(GPIO.BCM)
+
+
+# –аспиновка транзистеров через GPIO
+TAH = 13; #T Ч транзистор, ј Ч фаза (син€€), Ќ Ч верхний ключ полумоста
+TAL =15; #T Ч транзистор, ј Ч фаза (син€€), L Ч нижний ключ полумоста
+TBH = 27; #T Ч транзистор, B Ч фаза (зелЄна€), H Ч верхний ключ полумоста
+TBL = 29; #T Ч транзистор, B Ч фаза (зелЄна€), L Ч нижний ключ полумоста
+TCH = 31; #T Ч транзистор, C Ч фаза (жЄлта€), H Ч верхний ключ полумоста
+TCL = 33; #T Ч транзистор, C Ч фаза (жЄлта€), L Ч нижний ключ полумоста
+
+
+GPIO.setup(TAH, GPIO.OUT)
+GPIO.output(TAH, GPIO.LOW)
+
+GPIO.setup(TAL, GPIO.OUT)
+GPIO.output(TAL, GPIO.LOW)
+
+GPIO.setup(TBH, GPIO.OUT)
+GPIO.output(TBH, GPIO.LOW)
+
+GPIO.setup(TBL, GPIO.OUT)
+GPIO.output(TBL, GPIO.LOW)
+
+GPIO.setup(TCH, GPIO.OUT)
+GPIO.output(TCH, GPIO.LOW)
+
+GPIO.setup(TCL, GPIO.OUT)
+GPIO.output(TCL, GPIO.LOW)
+
+#ƒатчики ’олла
+H1=12
+H2=16
+H3=18
+
+GPIO.setup(H1, GPIO.IN)
+GPIO.setup(H2, GPIO.IN)
+GPIO.setup(H3, GPIO.IN)
+
+def stop_all():
+    GPIO.output(TAH, GPIO.LOW)
+    GPIO.output(TAL, GPIO.LOW)
+    GPIO.output(TBH, GPIO.LOW)
+    GPIO.output(TBL, GPIO.LOW
+    GPIO.output(TCH, GPIO.LOW)
+    GPIO.output(TCL, GPIO.LOW)
+#GPIO.input(KEY) == False
+# √лавный цикл
+while True:
+	key = stdscr.getch()
+	if key == ord('q'):
+		stop_all()
+		
+		
+	if GPIO.input(H1) == True and GPIO.input(H2) == False: #TAH
+		GPIO.output(TAH, GPIO.HIGH)
+	else:
+		GPIO.output(TAH, GPIO.LOW)
+
+		
+	if GPIO.input(H1) == False and  GPIO.input(H2) == True: #TAL
+		GPIO.output(TAL, GPIO.HIGH)
+	else:
+		GPIO.output(TAL, GPIO.LOW)
+	
+	
+	if GPIO.input(H3) == False and  GPIO.input(H2) == True: #TBH
+		GPIO.output(TBH, GPIO.HIGH)
+	else:
+		GPIO.output(TBH, GPIO.LOW)
+		
+		
+	if GPIO.input(H3) == True and  GPIO.input(H2) == False: #TBL
+		GPIO.output(TBL, GPIO.HIGH)
+	else:
+		GPIO.output(TBL, GPIO.LOW)	
+	
+	
+	if GPIO.input(H1) == False and  GPIO.input(H3) == True: #TCH
+		GPIO.output(TCH, GPIO.HIGH)
+	else:
+		GPIO.output(TCH, GPIO.LOW)
+		
+		
+	if GPIO.input(H1) == True and  GPIO.input(H3) == False: #TCL
+		GPIO.output(TCL, GPIO.HIGH)
+	else:
+		GPIO.output(TCL, GPIO.LOW)
+	
